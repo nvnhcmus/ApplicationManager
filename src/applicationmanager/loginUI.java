@@ -7,29 +7,48 @@ package applicationmanager;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JFrame;
+import javax.swing.JRootPane;
+import logger.LoggerCode;
+import logger.LoggerInterface;
+import manager.managerUI;
 
 /**
  *
  * @author 10122_000
  */
-public class loginUI extends javax.swing.JFrame {
+public final class loginUI extends javax.swing.JFrame {
 
     /**
      * Creates new form loginUI
      */
+    
+    public static LoggerInterface LoggerInf;
     public loginUI() {
         initComponents();
         
+        
+        // create Logger instance
+        LoggerInf = new LoggerInterface(this.getClass().getSimpleName());
+        LoggerInf.SetLevel(true);
+        
         // set the window in the center of sreen
-        centreWindow();
+        centreWindow(); 
+        setCustomeWindow();
     }
     
-    public void centreWindow() 
-    {
+    public void centreWindow() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) ((dimension.getWidth() - this.getWidth()) / 2);
         int height = (int) ((dimension.getHeight() - this.getHeight()) / 2);
         this.setLocation(width, height);
+        LoggerInf.Log(LoggerCode.LOGGER_LEVEL_INFO, "logindialog: centreWindow");
+    }
+    
+    
+    public void setCustomeWindow(){
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        getRootPane().setWindowDecorationStyle(JRootPane.NONE);
     }
 
     /**
@@ -43,8 +62,10 @@ public class loginUI extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 204));
@@ -58,6 +79,14 @@ public class loginUI extends javax.swing.JFrame {
             }
         });
 
+        btnNext.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnNext.setText("Next");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,7 +97,9 @@ public class loginUI extends javax.swing.JFrame {
                 .addGap(106, 106, 106))
             .addGroup(layout.createSequentialGroup()
                 .addGap(155, 155, 155)
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                    .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -76,7 +107,9 @@ public class loginUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                .addComponent(btnNext)
+                .addGap(55, 55, 55)
                 .addComponent(btnExit)
                 .addGap(25, 25, 25))
         );
@@ -86,8 +119,18 @@ public class loginUI extends javax.swing.JFrame {
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // Termiate application through exit button
+        LoggerInf.Log(LoggerCode.LOGGER_LEVEL_INFO, "Exit application");
         System.exit(loginCode.APPLICATION_EXIT_CODE);
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // Show main dialog
+        managerUI mainDialog = new managerUI();
+        mainDialog.show();
+        
+        // hide the loginUI
+        this.hide();
+    }//GEN-LAST:event_btnNextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -117,15 +160,14 @@ public class loginUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new loginUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new loginUI().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnNext;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
