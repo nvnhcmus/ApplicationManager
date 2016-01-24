@@ -5,12 +5,15 @@
  */
 package manager;
 
+import applicationmanager.loginUI;
 import static applicationmanager.loginUI.LoggerInf;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JDialog;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import logger.LoggerCode;
 import logger.LoggerInterface;
@@ -41,6 +44,10 @@ public final class managerUI extends javax.swing.JFrame {
         
         // config table view
         configTableView();
+        
+        // auto hide save button
+        btnSave.setVisible(false);
+        
     }
     
     public void centreWindow() {
@@ -68,6 +75,7 @@ public final class managerUI extends javax.swing.JFrame {
         menuItemEdit.addActionListener((ActionEvent e) -> {
             currentRowIndex = tableView.getSelectedRow();
             LoggerInf.Log(LoggerCode.LOGGER_LEVEL_INFO, "managerUI: add item " + currentRowIndex);
+            btnSave.setVisible(true);
         });
         
         // remove function
@@ -84,11 +92,20 @@ public final class managerUI extends javax.swing.JFrame {
             LoggerInf.Log(LoggerCode.LOGGER_LEVEL_INFO, "managerUI: remove all item " + currentRowIndex);
         });
         
+        // add item refresh data
+         JMenuItem menuItemRefresh = new JMenuItem("Refresh");
+         menuItemRefresh.addActionListener((ActionEvent e) -> {
+            currentRowIndex = tableView.getSelectedRow();
+            LoggerInf.Log(LoggerCode.LOGGER_LEVEL_INFO, "managerUI: refresh data " + currentRowIndex);
+        });
+        
         
         // add item into menu
         popupMenu.add(menuItemEdit);
         popupMenu.add(menuItemRemove);
         popupMenu.add(menuItemRemoveAll);
+        popupMenu.add(menuItemRefresh);
+       
     }
 
     /**
@@ -103,6 +120,8 @@ public final class managerUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableView = new javax.swing.JTable();
+        btnBack = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -113,57 +132,110 @@ public final class managerUI extends javax.swing.JFrame {
 
         tableView.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"001", "Nhuong Nguyen", "10-12-1992", "Ben Tre", "Univerity of Science"},
-                {"002", "Thai Tran", "01-01-1990", "Thanh pho HCM", "Univeristy of Science"},
-                {"003", "Kinh Tran", "12-02-1990", "Thanh pho HCM", "University of Science"},
-                {"004", "Tung Nguyen", "15-10-1992", "Dong Thap", "University of Technology"},
-                {"005", "Nguyen Tran", "25-08-1992", "Tien Giang", "Univerity of Science"}
+                {"001", "Nhuong Nguyen", "10-12-1992", "Ben Tre", "Univerity of Science", "012345678", "nhuong@gmail.com"},
+                {"002", "Thai Tran", "01-01-1990", "Thanh pho HCM", "Univeristy of Science", "0986433455", "thai@gmail.com"},
+                {"003", "Kinh Tran", "12-02-1990", "Thanh pho HCM", "University of Science", "09783467", "kinh@hotmail.com"},
+                {"004", "Tung Nguyen", "15-10-1992", "Dong Thap", "University of Technology", "0165789033", "tung@yahoo.com"},
+                {"005", "Nguyen Tran", "25-08-1992", "Tien Giang", "Univerity of Science", "098700345", "nguyen@abc.com"}
             },
             new String [] {
-                "id", "name", "date of birth", "address", "university"
+                "id", "name", "date of birth", "address", "university", "phone", "email"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tableView);
         if (tableView.getColumnModel().getColumnCount() > 0) {
             tableView.getColumnModel().getColumn(0).setMinWidth(25);
             tableView.getColumnModel().getColumn(0).setMaxWidth(50);
-            tableView.getColumnModel().getColumn(4).setMinWidth(200);
-            tableView.getColumnModel().getColumn(4).setMaxWidth(250);
+            tableView.getColumnModel().getColumn(1).setMinWidth(100);
+            tableView.getColumnModel().getColumn(1).setMaxWidth(125);
+            tableView.getColumnModel().getColumn(3).setMinWidth(125);
+            tableView.getColumnModel().getColumn(3).setMaxWidth(130);
+            tableView.getColumnModel().getColumn(4).setMinWidth(150);
+            tableView.getColumnModel().getColumn(4).setMaxWidth(200);
+            tableView.getColumnModel().getColumn(6).setMinWidth(150);
+            tableView.getColumnModel().getColumn(6).setMaxWidth(180);
         }
+
+        btnBack.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        btnSave.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(248, 248, 248))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(57, 57, 57)
+                .addComponent(btnBack)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSave)
+                .addGap(57, 57, 57))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(btnSave))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        loginUI loginDialog = new loginUI();
+        loginDialog.show();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Your selected data is edited successful!", "Notification", 
+                JOptionPane.INFORMATION_MESSAGE);
+        btnSave.setVisible(false);
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,6 +271,8 @@ public final class managerUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableView;
