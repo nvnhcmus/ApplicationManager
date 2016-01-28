@@ -6,10 +6,13 @@
 package manager;
 
 import database.userInterface;
+import database.userManipulation;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -295,22 +298,26 @@ public final class userInformationUI extends javax.swing.JFrame {
             }
         }else{
             try {
-            //add new record
-            String strName = this.txtName.getText();
-            String strDate = this.txtDate.getText();
-            String strAddress = this.txtAddress.getText();
-            String strUniversity = this.txtUniveristy.getText();
-            String strPhone = this.txtPhone.getText();
-            String strEmail = this.txtEmail.getText();
-            
-            userInterface newUser = new userInterface(0, "12ABQT", strName, 
-                    strDate, strAddress, strUniversity, strPhone, strEmail);
-           
-            managerUI.notifyEvent(managerCode.USER_ADD_RECORD, newUser);
-            newUser = null;
-            this.dispose();
-            
-            } catch (InterruptedException ex) {
+                String strEmail = this.txtEmail.getText();
+                if (userManipulation.getUserManipulationInstance().isUniqueEmail(strEmail)==true){
+                    //add new record
+                    String strName = this.txtName.getText();
+                    String strDate = this.txtDate.getText();
+                    String strAddress = this.txtAddress.getText();
+                    String strUniversity = this.txtUniveristy.getText();
+                    String strPhone = this.txtPhone.getText();
+
+                    userInterface newUser = new userInterface(0, "12ABQT", strName, 
+                            strDate, strAddress, strUniversity, strPhone, strEmail);
+
+                    managerUI.notifyEvent(managerCode.USER_ADD_RECORD, newUser);
+                    newUser = null;
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Please change to another email!", "Notification", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (InterruptedException | SQLException ex) {
                 Logger.getLogger(userInformationUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

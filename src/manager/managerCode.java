@@ -12,6 +12,7 @@ import java.util.Random;
  * @author 10122_000
  */
 public class managerCode {
+    public static final int COLUMN_ID           = 0;
     public static final int COLUMN_NAME         = 1;
     public static final int COLUMN_DATE         = 2;
     public static final int COLUMN_ADDRESS      = 3;

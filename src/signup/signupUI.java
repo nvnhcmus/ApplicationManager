@@ -241,27 +241,37 @@ public final class signupUI extends javax.swing.JFrame {
         int errorCode = checkCreateAccountInformation();
         
         if (errorCode == signupCode.SIGNUP_OK){
-            accountInterface newAccount = new accountInterface();
-            newAccount.setStrUsername(txtSignupUsername.getText());
-            newAccount.setStrPassword(txtsignupPassword.getText());
-            
-            boolean bChecker = false;
             try {
-                bChecker = userManipulation.getUserManipulationInstance().InsertNewUserInformation(newAccount);
-                 if (bChecker == true){
-                    // create an new account
-                    JOptionPane.showMessageDialog(null, "Create an account successfully!", 
+                // check username is unique
+                if (userManipulation.getUserManipulationInstance().isUniqueUsername(txtSignupUsername.getText())){
+                    accountInterface newAccount = new accountInterface();
+                    newAccount.setStrUsername(txtSignupUsername.getText());
+                    newAccount.setStrPassword(txtsignupPassword.getText());
+                    
+                    boolean bChecker = false;
+                    try {
+                        bChecker = userManipulation.getUserManipulationInstance().InsertNewUserInformation(newAccount);
+                        if (bChecker == true){
+                            // create an new account
+                            JOptionPane.showMessageDialog(null, "Create an account successfully!",
                                     "Signup Application", JOptionPane.INFORMATION_MESSAGE);
+                        }else{
+                            Logger.getLogger(signupUI.class.getName()).log(Level.SEVERE, null, "Create new account fail");
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(signupUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (newAccount!=null){
+                        newAccount = null;
+                    }
+                    System.gc();
                 }else{
-                     Logger.getLogger(signupUI.class.getName()).log(Level.SEVERE, null, "Create new account fail");
-                 }
+                    JOptionPane.showMessageDialog(null, "Pleased choose another username!",
+                                    "Signup Application", JOptionPane.INFORMATION_MESSAGE);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(signupUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (newAccount!=null){
-                newAccount = null;
-            }
-            System.gc();
         }else{
             switch(errorCode){
                 case signupCode.SIGNUP_ERROR_EMPTY_USERNAME:
