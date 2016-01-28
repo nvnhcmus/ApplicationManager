@@ -226,6 +226,51 @@ public class userManipulation {
         return currentIndex;
     }
     
+    
+    public boolean isUniqueEmail( String email) throws SQLException{
+        boolean result = true;
+        if (mysqlConnector!= null){
+            String queryInfo = "SELECT email FROM users";
+        
+            Statement statement = mysqlConnector.createStatement();
+            // check the email
+            ResultSet resultSet = statement.executeQuery(queryInfo);
+            while (resultSet.next())
+            {
+                String strEmail = resultSet.getString("email");
+                if (email.equals(strEmail)==true){
+                    result = false;
+                    break;
+                }
+            }
+        }else{
+            System.err.println("null connection");
+        }
+        return result;
+    }
+    
+    public boolean isUniqueUsername( String userName) throws SQLException{
+        boolean result = true;
+        if (mysqlConnector!= null){
+            String queryInfo = "SELECT username FROM login";
+        
+            Statement statement = mysqlConnector.createStatement();
+            // check the username
+            ResultSet resultSet = statement.executeQuery(queryInfo);
+            while (resultSet.next())
+            {
+                String strUsername = resultSet.getString("username");
+                if (userName.equals(strUsername)==true){
+                    result = false;
+                    break;
+                }
+            }
+        }else{
+            System.err.println("null connection");
+        }
+        return result;
+    }
+    
     public boolean InsertNewUserInformationRow( userInterface user) throws SQLException{
         boolean result = false;
         if (mysqlConnector!=null){

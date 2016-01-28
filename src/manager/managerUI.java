@@ -103,6 +103,13 @@ public final class managerUI extends javax.swing.JFrame {
         }
     }
     
+    public void RefreshDataView(int currRowIndex){
+        model.removeRow(currRowIndex);
+        for (int i = 0; i < model.getRowCount(); i++){
+            tableView.setValueAt((int)i+1, i, managerCode.COLUMN_ID);
+        }
+    }
+    
     public void RemoveAllUser(){
         try {
             boolean bChecker = userManipulation.getUserManipulationInstance().DeleteALLUserInformation();
@@ -141,14 +148,13 @@ public final class managerUI extends javax.swing.JFrame {
     public static void InsertNewUserInformation(userInterface user){
         try {
                 //set user token
-                //user.setStrName("Spellbinder Account " + userManipulation.getUserManipulationInstance().getCurrentUserInformationIndex());
                 user.setStrToken(managerCode.getToken(6));
                 user.setId( userManipulation.getUserManipulationInstance().getCurrentUserInformationIndex()+1);
                 boolean bChecker = false;
                 bChecker = userManipulation.getUserManipulationInstance().InsertNewUserInformationRow(user);
                 if (bChecker == true){
-                    //JOptionPane.showMessageDialog(null, "Insert data successful!", "Notification", 
-                    //   JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Insert data successful!", "Notification", 
+                       JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     JOptionPane.showMessageDialog(null, "Insert data FAIL!", "Notification", 
                         JOptionPane.INFORMATION_MESSAGE);
@@ -237,7 +243,7 @@ public final class managerUI extends javax.swing.JFrame {
                 // yes option
                 currentRowIndex = tableView.getSelectedRow();
                 deleteUserByRowIndex(currentRowIndex);
-                ReFreshTableView(managerCode.USER_EDIT_UPDATE);
+                RefreshDataView(currentRowIndex);
                 LoggerInf.Log(LoggerCode.LOGGER_LEVEL_INFO, "managerUI > remove item " + currentRowIndex);
             } else {
                 // no option
