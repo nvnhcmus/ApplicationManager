@@ -1,0 +1,25 @@
+CREATE TABLE login (
+  id int(11) NOT NULL,
+  username nvarchar(50) DEFAULT NULL,
+  password nvarchar(50) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE users (
+  id int(11) NOT NULL,
+  token nvarchar(6) DEFAULT NULL,
+  name nvarchar(50) DEFAULT NULL,
+  date nvarchar(50) DEFAULT NULL,
+  address nvarchar(50) DEFAULT NULL,
+  university nvarchar(50) DEFAULT NULL,
+  phone nvarchar(50) DEFAULT NULL,
+  email nvarchar(50) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+It looks like your MySql session has the safe-updates option set. 
+This means that you can't update or delete records without specifying a key (ex. primary key) in the where clause.
+Try:
+SET SQL_SAFE_UPDATES = 0

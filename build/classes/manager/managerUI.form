@@ -31,12 +31,14 @@
           </Group>
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="749" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="777" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
               <Component id="btnBack" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="btnSave" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
@@ -54,6 +56,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnBack" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAdd" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -82,56 +85,14 @@
         <Component class="javax.swing.JTable" name="tableView">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="5">
-                <Column editable="false" title="id" type="java.lang.String">
-                  <Data value="001"/>
-                  <Data value="002"/>
-                  <Data value="003"/>
-                  <Data value="004"/>
-                  <Data value="005"/>
-                </Column>
-                <Column editable="false" title="name" type="java.lang.String">
-                  <Data value="Nhuong Nguyen"/>
-                  <Data value="Thai Tran"/>
-                  <Data value="Kinh Tran"/>
-                  <Data value="Tung Nguyen"/>
-                  <Data value="Nguyen Tran"/>
-                </Column>
-                <Column editable="false" title="date of birth" type="java.lang.String">
-                  <Data value="10-12-1992"/>
-                  <Data value="01-01-1990"/>
-                  <Data value="12-02-1990"/>
-                  <Data value="15-10-1992"/>
-                  <Data value="25-08-1992"/>
-                </Column>
-                <Column editable="false" title="address" type="java.lang.String">
-                  <Data value="Ben Tre"/>
-                  <Data value="Thanh pho HCM"/>
-                  <Data value="Thanh pho HCM"/>
-                  <Data value="Dong Thap"/>
-                  <Data value="Tien Giang"/>
-                </Column>
-                <Column editable="false" title="university" type="java.lang.String">
-                  <Data value="Univerity of Science"/>
-                  <Data value="Univeristy of Science"/>
-                  <Data value="University of Science"/>
-                  <Data value="University of Technology"/>
-                  <Data value="Univerity of Science"/>
-                </Column>
-                <Column editable="false" title="phone" type="java.lang.String">
-                  <Data value="012345678"/>
-                  <Data value="0986433455"/>
-                  <Data value="09783467"/>
-                  <Data value="0165789033"/>
-                  <Data value="098700345"/>
-                </Column>
-                <Column editable="false" title="email" type="java.lang.String">
-                  <Data value="nhuong@gmail.com"/>
-                  <Data value="thai@gmail.com"/>
-                  <Data value="kinh@hotmail.com"/>
-                  <Data value="tung@yahoo.com"/>
-                  <Data value="nguyen@abc.com"/>
-                </Column>
+              <Table columnCount="7" rowCount="0">
+                <Column editable="false" title="id" type="java.lang.String"/>
+                <Column editable="false" title="name" type="java.lang.String"/>
+                <Column editable="false" title="date of birth" type="java.lang.String"/>
+                <Column editable="true" title="address" type="java.lang.String"/>
+                <Column editable="false" title="university" type="java.lang.String"/>
+                <Column editable="false" title="phone" type="java.lang.String"/>
+                <Column editable="true" title="email" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -200,6 +161,17 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAdd">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="13" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Add"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
